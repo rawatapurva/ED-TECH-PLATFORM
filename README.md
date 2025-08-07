@@ -1,12 +1,37 @@
-# React + Vite
+# 🎓 EdTech Platform (MERN Stack)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-featured **EdTech Platform** built using the **MERN stack** (MongoDB, Express.js, React.js, Node.js). This platform allows students to browse and enroll in courses, and enables instructors or admins to create, manage, and upload course content such as video lectures.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 📚 Browse all available courses
+- 🔍 Filter/search by course title, category, or instructor
+- 👨‍🎓 Student registration and login (JWT-based auth)
+- 📺 Watch video lectures and track course progress
+- 📝 Instructor/Admin dashboard for course management
+- 📤 Upload video content (with Multer/Cloudinary)
+- 🔒 Role-based access control (student/instructor/admin)
+- 🎨 Responsive and clean UI
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠 Tech Stack
+
+- **Frontend:** React.js, Tailwind CSS (or CSS Modules), Axios
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB (Mongoose)
+- **Authentication:** JWT (JSON Web Tokens)
+- **Media Handling:** Multer for file uploads, Cloudinary for media storage
+
+---
+
+## 📦 Installation & Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/edtech-platform.git
+cd edtech-platform
+
