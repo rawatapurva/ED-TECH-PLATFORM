@@ -181,104 +181,56 @@ exports.login = async (req, res) => {
   }
 }
 
-
-
-
 // Send OTP For Email Verification
-// exports.sendotp = async (req, res) => {
-//   try {
-//     const { email } = req.body
-
-//     // Check if user is already present
-//     // Find user with provided email
-//     const checkUserPresent = await User.findOne({ email })
-//     // to be used in case of signup
-
-//     // If user found with provided email
-//     if (checkUserPresent) {
-//       // Return 401 Unauthorized status code with error message
-//       return res.status(401).json({
-//         success: false,
-//         message: `User is Already Registered`,
-//       })
-//     }
-
-//     var otp = otpGenerator.generate(6, {
-//       upperCaseAlphabets: false,
-//       lowerCaseAlphabets: false,
-//       specialChars: false,
-//     })
-//     const result = await OTP.findOne({ otp: otp })
-//     console.log("Result is Generate OTP Func")
-//     console.log("OTP", otp)
-//     console.log("Result", result)
-//     while (result) {
-//       otp = otpGenerator.generate(6, {
-//         upperCaseAlphabets: false,
-//       })
-//     }
-//     const otpPayload = { email, otp }
-//     const otpBody = await OTP.create(otpPayload)
-//     console.log("OTP Body", otpBody)
-//     res.status(200).json({
-//       success: true,
-//       message: `OTP Sent Successfully`,
-//       otp,
-//     })
-//   } catch (error) {
-//     console.log(error.message)
-//     return res.status(500).json({ success: false, error: error.message })
-//   }
-// }
-
-
-
-// controllers/Auth.js (sendotp)
 exports.sendotp = async (req, res) => {
   try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(400).json({ success: false, message: "Email required" });
-    }
+    const { email } = req.body
 
-    // If user already registered
-    const checkUserPresent = await User.findOne({ email });
+    // Check if user is already present
+    // Find user with provided email
+    const checkUserPresent = await User.findOne({ email })
+    // to be used in case of signup
+
+    // If user found with provided email
     if (checkUserPresent) {
-      return res.status(400).json({ success: false, message: "User is Already Registered" });
+      // Return 401 Unauthorized status code with error message
+      return res.status(401).json({
+        success: false,
+        message: `User is Already Registered`,
+      })
     }
 
-    // generate unique OTP
-    let otp = otpGenerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
-
-    // ensure OTP unique (optional) - simple loop approach
-    // (You already did findOne earlier, so ok to skip heavy checks)
-    const otpPayload = { email, otp };
-    const otpBody = await OTP.create(otpPayload);
-    console.log("OTP stored:", otpBody._id);
-
-    // Attempt to send email, but do NOT throw if it fails.
-    try {
-      // require here so model doesn't force mail dependencies during require-time
-      const mailSender = require("../utils/mailSender");
-      const emailTemplate = require("../mail/templates/emailVerificationTemplate");
-      await mailSender(email, "Verification Email", emailTemplate(otp));
-      // success path
-      return res.status(200).json({ success: true, message: "OTP Sent Successfully" });
-    } catch (mailErr) {
-      console.error("OTP created but sending email failed:", mailErr?.message || mailErr);
-      // return success (OTP exists). For dev only you can return otp.
-      return res.status(200).json({
-        success: true,
-        message: "OTP created but email delivery failed. Please check inbox or use resend.",
-        otp: process.env.NODE_ENV === "development" ? otp : undefined,
-      });
+    var otp = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    })
+    const result = await OTP.findOne({ otp: otp })
+    console.log("Result is Generate OTP Func")
+    console.log("OTP", otp)
+    console.log("Result", result)
+    while (result) {
+      otp = otpGenerator.generate(6, {
+        upperCaseAlphabets: false,
+      })
     }
-
+    const otpPayload = { email, otp }
+    const otpBody = await OTP.create(otpPayload)
+    console.log("OTP Body", otpBody)
+    res.status(200).json({
+      success: true,
+      message: `OTP Sent Successfully`,
+      otp,
+    })
   } catch (error) {
-    console.error("sendotp error:", error);
-    return res.status(500).json({ success: false, message: "OTP generation failed", error: error.message });
+    console.log(error.message)
+    return res.status(500).json({ success: false, error: error.message })
   }
-};
+}
+
+
+
+
 
 
 
